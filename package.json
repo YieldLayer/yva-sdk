@@ -1,0 +1,30 @@
+{
+  "name": "@yelay-lite/yva-sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for YVA (yelay vault on avalanche)",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint . --ext .ts"
+  },
+  "keywords": [
+    "yva",
+    "avax",
+    "defi",
+    "sdk",
+    "yelay"
+  ],
+  "author": "Traf333",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^9.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "typescript": "^5.4.0"
+  },
+  "packageManager": "pnpm@9.7.0+sha512.dc09430156b427f5ecfc79888899e1c39d2d690f004be70e05230b72cb173d96839587545d09429b55ac3c429c801b4dc3c0e002f653830a420fa2dd4e3cf9cf",
+  "dependencies": {
+    "ethers": "5"
+  }
+}
