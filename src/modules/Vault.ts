@@ -1,29 +1,46 @@
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, ethers } from "ethers";
+import { BackendService } from "../services/BackendService";
 
 export class VaultModule {
+  private backendService: BackendService;
   private contract: Contract;
   private signer?: Signer;
 
-  constructor(contract: Contract, signer?: Signer) {
+  constructor(
+    backendService: BackendService,
+    contract: Contract,
+    signer?: Signer
+  ) {
     this.contract = signer ? contract.connect(signer) : contract;
     this.signer = signer;
+    this.backendService = backendService;
   }
 
-  async deposit(amount: string) {
+  async deposit(amount: bigint) {
     if (!this.signer) throw new Error("Signer required for deposit");
-    console.log("deposit", amount);
+    const formattedAmount = ethers.utils.formatEther(amount);
+    console.log("deposit", formattedAmount);
     const tx = await this.contract.deposit({ value: amount });
     return tx.wait();
   }
 
-  async withdraw(amount: string) {
-    if (!this.signer) throw new Error("Signer required for withdraw");
-    console.log("withdraw", amount);
-    const tx = await this.contract.withdraw(amount);
+  async redeem(amount: bigint) {
+    if (!this.signer) throw new Error("Signer required for redeem");
+    const formattedAmount = ethers.utils.formatEther(amount);
+    console.log("redeem", formattedAmount);
+    const tx = await this.contract.redeem(amount);
     return tx.wait();
   }
 
   async latestAPY() {
-    console.log("latestAPY");
+    try {
+      return await this.backendService.getLatestAPY();
+    } catch (error) {
+      console.warn(
+        "Failed to fetch APY from backend, falling back to contract:",
+        error
+      );
+      throw error;
+    }
   }
 }
