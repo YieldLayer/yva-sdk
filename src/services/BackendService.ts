@@ -30,7 +30,7 @@ export class BackendService {
 
   async getLatestAPY(): Promise<number> {
     try {
-      const response = await fetch(`${this.baseUrl}/api/apy/latest`);
+      const response = await fetch(`${this.baseUrl}/api/apy`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

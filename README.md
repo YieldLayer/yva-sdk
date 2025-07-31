@@ -96,6 +96,69 @@ const top5 = await sdk.users.topStakers(5);
 console.log("Top 5 stakers:", top5);
 ```
 
+## Testing
+
+The SDK includes comprehensive Jest tests for all major functionality.
+
+### Running Tests
+
+```bash
+# Install test dependencies
+pnpm install
+
+# Run all tests
+pnpm test
+
+# Run tests in watch mode
+pnpm test:watch
+
+# Run tests with coverage
+pnpm test:coverage
+```
+
+### Test Structure
+
+The test suite includes:
+
+- **SDK Initialization Tests** (`__tests__/sdk.test.ts`)
+  - Environment configuration
+  - Module integration
+  - Error handling
+
+- **Vault Module Tests** (`__tests__/vault.test.ts`)
+  - APY fetching functionality
+  - Deposit transaction preparation
+  - Redeem transaction preparation
+  - Error handling and validation
+
+- **Users Module Tests** (`__tests__/users.test.ts`)
+  - Top stakers fetching
+  - Data structure validation
+  - Backend service integration
+
+### Test Configuration
+
+Tests are configured to:
+- Use Avalanche Fuji testnet for integration tests
+- Mock contract calls to avoid real transactions
+- Handle network timeouts gracefully
+- Validate data structures and types
+
+### Example Test Output
+
+```bash
+$ pnpm test
+
+ PASS  __tests__/sdk.test.ts
+ PASS  __tests__/users.test.ts
+ PASS  __tests__/vault.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       15 passed, 15 total
+Snapshots:   0 total
+Time:        2.5 s
+```
+
 ## Requirements
 
 - Node.js 16+
