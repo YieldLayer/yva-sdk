@@ -18,16 +18,18 @@ export class VaultModule {
 
   async deposit(amount: bigint) {
     if (!this.signer) throw new Error("Signer required for deposit");
+
     const formattedAmount = ethers.utils.formatEther(amount);
-    console.log("deposit", formattedAmount);
+    console.log(`deposit amount: ${formattedAmount}`);
     const tx = await this.contract.deposit({ value: amount });
     return tx.wait();
   }
 
   async redeem(amount: bigint) {
     if (!this.signer) throw new Error("Signer required for redeem");
+
     const formattedAmount = ethers.utils.formatEther(amount);
-    console.log("redeem", formattedAmount);
+    console.log(`redeem amount: ${formattedAmount}`);
     const tx = await this.contract.redeem(amount);
     return tx.wait();
   }
