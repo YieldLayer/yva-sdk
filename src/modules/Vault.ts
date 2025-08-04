@@ -34,15 +34,7 @@ export class VaultModule {
     return tx.wait();
   }
 
-  async latestAPY() {
-    try {
-      return await this.backendService.getLatestAPY();
-    } catch (error) {
-      console.warn(
-        "Failed to fetch APY from backend, falling back to contract:",
-        error
-      );
-      throw error;
-    }
+  async stakingInfo() {
+    return await this.backendService.getStakingInfo();
   }
 }

@@ -6,14 +6,6 @@ TypeScript SDK for YVA (Yelay Vault on Avalanche) - A DeFi vault protocol on the
 
 The YVA SDK provides a simple and intuitive interface to interact with the Avalanche Fusion protocol, allowing developers to integrate vault operations, user management, and analytics into their applications.
 
-## Features
-
-- 🏦 **Vault Operations**: Deposit and redeem AVAX from the YVA vault
-- 📊 **Analytics**: Get real-time APY data and vault metrics
-- 👥 **User Management**: Access user positions and top stakers leaderboard
-- 🌐 **Multi-Environment**: Support for mainnet and testnet
-- 🔗 **Ethers.js Integration**: Built on top of ethers.js for seamless Web3 integration
-
 ## Installation
 
 ```bash
@@ -60,26 +52,28 @@ const testnetSDK = new YvaSDK(provider, signer, "testnet");
 
 ```typescript
 // Deposit 1 AVAX to the vault
-const amount = ethers.utils.parseEther("1.0");
-const tx = await sdk.vault.deposit(amount);
-console.log("Deposit transaction:", tx.transactionHash);
+const amount = BigInt(1e18); // 1 AVAX in wei
+const txReceipt = await sdk.vault.deposit(amount);
+console.log("Deposit transaction:", txReceipt.transactionHash);
 ```
 
 #### Redeem AVAX
 
 ```typescript
 // Redeem 1 AVAX from the vault
-const amount = ethers.utils.parseEther("1.0");
-const tx = await sdk.vault.redeem(amount);
-console.log("Redeem transaction:", tx.transactionHash);
+const amount = BigInt(1e18); // 1 AVAX in wei
+const txReceipt = await sdk.vault.redeem(amount);
+console.log("Redeem transaction:", txReceipt.transactionHash);
 ```
 
-#### Get Latest APY
+#### Get Staking Information
 
 ```typescript
-// Get the current APY for the vault
-const apy = await sdk.vault.latestAPY();
-console.log("Current APY:", apy);
+// Get comprehensive staking information including APY
+const stakingInfo = await sdk.vault.stakingInfo();
+console.log("Total Staked:", stakingInfo.totalStaked);
+console.log("Last Round APY:", stakingInfo.lastRoundAPY);
+console.log("Next Round Start:", new Date(stakingInfo.nextRoundStart));
 ```
 
 ### User Analytics
@@ -94,6 +88,35 @@ console.log("Top stakers:", topStakers);
 // Get top 5 stakers
 const top5 = await sdk.users.topStakers(5);
 console.log("Top 5 stakers:", top5);
+
+// Each staker object contains:
+// {
+//   vault: string,
+//   userId: string,
+//   round: number,
+//   position: string
+// }
+```
+
+#### Get User Information
+
+```typescript
+// Get specific user's position and pending transactions
+const userAddress = "0x1234567890123456789012345678901234567890";
+const user = await sdk.users.getUser(userAddress);
+console.log("User position:", user.position);
+console.log("Pending deposit:", user.pending.deposit);
+console.log("Pending redeem:", user.pending.redeem);
+
+// User object structure:
+// {
+//   userAddress: string,
+//   position: string,
+//   pending: {
+//     deposit: string,
+//     redeem: string
+//   }
+// }
 ```
 
 ## Requirements

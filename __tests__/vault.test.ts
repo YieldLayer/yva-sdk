@@ -14,11 +14,17 @@ describe("Vault Module", () => {
     sdk = new YvaSDK(provider, wallet, "testnet");
   });
 
-  describe("latestAPY", () => {
-    it("should fetch latest APY", async () => {
-      const apy = await sdk.vault.latestAPY();
+  describe("stakingInfo", () => {
+    it("should fetch staking information", async () => {
+      const stakingInfo = await sdk.vault.stakingInfo();
 
-      console.log(`✅ Current APY: ${apy}%`);
+      console.log(`✅ Total Staked: ${stakingInfo.totalStaked}`);
+      console.log(`✅ Last Round APY: ${stakingInfo.lastRoundAPY}%`);
+      console.log(
+        `✅ Next Round Start: ${new Date(
+          stakingInfo.nextRoundStart
+        ).toISOString()}`
+      );
     });
   });
 
@@ -28,8 +34,19 @@ describe("Vault Module", () => {
       const balance = await provider.getBalance(wallet.address);
       console.log("wallet balance:", ethers.utils.formatEther(balance));
 
-      const tx = await sdk.vault.deposit(BigInt(1e18));
-      console.log("Deposit transaction:", tx.transactionHash);
+      const txReceipt = await sdk.vault.deposit(BigInt(1e18));
+      console.log("Deposit transaction:", txReceipt.transactionHash);
+    });
+  });
+
+  describe("redeem", () => {
+    it("should redeem AVAX", async () => {
+      console.log("redeeming AVAX");
+      const balance = await provider.getBalance(wallet.address);
+      console.log("wallet balance:", ethers.utils.formatEther(balance));
+
+      const txReceipt = await sdk.vault.redeem(BigInt(5e17)); // 0.5 AVAX
+      console.log("Redeem transaction:", txReceipt.transactionHash);
     });
   });
 });
