@@ -1,48 +1,27 @@
-import { Contract } from "ethers";
+import { Signer } from "ethers";
 import { BackendService } from "../services/BackendService";
 
 export class UsersModule {
   private backendService: BackendService;
-  private contract: Contract;
+  private signer?: Signer;
 
-  constructor(backendService: BackendService, contract: Contract) {
+  constructor(backendService: BackendService, signer?: Signer) {
     this.backendService = backendService;
-    this.contract = contract;
+    this.signer = signer;
   }
 
-  // async position(userAddress: string) {
-  //   try {
-  //     return await this.backendService.getUserPosition(userAddress);
-  //   } catch (error) {
-  //     console.warn(
-  //       "Failed to fetch position from backend, falling back to contract:",
-  //       error
-  //     );
-  //     throw error;
-  //   }
-  // }
+  async getUser() {
+    if (!this.signer) {
+      throw new Error(
+        "Signer is required to get user information. Please connect a wallet."
+      );
+    }
 
-  // async pending(userAddress: string) {
-  //   try {
-  //     return await this.backendService.getUserPending(userAddress);
-  //   } catch (error) {
-  //     console.warn(
-  //       "Failed to fetch pending rewards from backend, falling back to contract:",
-  //       error
-  //     );
-  //     throw error;
-  //   }
-  // }
+    const userAddress = await this.signer.getAddress();
+    return await this.backendService.getUser(userAddress);
+  }
 
   async topStakers(limit: number = 10) {
-    try {
-      return await this.backendService.getTopStakers(limit);
-    } catch (error) {
-      console.warn(
-        "Failed to fetch top stakers from backend, falling back to contract:",
-        error
-      );
-      throw error;
-    }
+    return await this.backendService.getTopStakers(limit);
   }
 }

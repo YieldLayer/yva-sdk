@@ -32,6 +32,6 @@ export class YvaSDK {
 
     const backend = new BackendService(backendUrl);
     this.vault = new VaultModule(backend, this.contract, signer);
-    this.users = new UsersModule(backend, this.contract);
+    this.users = new UsersModule(backend, signer);
   }
 }
