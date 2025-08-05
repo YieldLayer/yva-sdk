@@ -4,6 +4,7 @@
   "description": "TypeScript SDK for YVA (yelay vault on avalanche)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "access": "public",
   "scripts": {
     "build": "tsc",
     "lint": "eslint . --ext .ts",
