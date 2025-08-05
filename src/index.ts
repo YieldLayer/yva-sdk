@@ -5,9 +5,9 @@ export { UsersModule } from "./modules/Users";
 export { BackendService } from "./services/BackendService";
 
 export type { Environment } from "./config";
-export type { 
-  APYResponse, 
-  StakerInfo, 
-  TopStakersResponse, 
-  PositionResponse 
+export type {
+  StakerInfo,
+  TopStakersResponse,
+  UserResponse,
+  StakingInfoResponse,
 } from "./services/BackendService";
