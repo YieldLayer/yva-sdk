@@ -101,23 +101,21 @@ console.log("Top 5 stakers:", top5);
 #### Get User Information
 
 ```typescript
-// Get specific user's position and pending transactions
-const userAddress = "0x1234567890123456789012345678901234567890";
-const user = await sdk.users.getUser(userAddress);
-console.log("User position:", user.position);
-console.log("Pending deposit:", user.pending.deposit);
-console.log("Pending redeem:", user.pending.redeem);
-
-// User object structure:
-// {
-//   userAddress: string,
-//   position: string,
-//   pending: {
-//     deposit: string,
-//     redeem: string
-//   }
-// }
+// Get current user's information (requires connected wallet)
+const user = await sdk.users.getUser();
+console.log("User address:", user.userAddress);
 ```
+
+**Response Structure:**
+
+The `getUser()` method returns different data based on the user's current state:
+
+1. **New user** (no deposits): `{userAddress: string}`
+2. **Active staker**: `{userAddress: string, position: string}`
+3. **User with pending transactions**: `{userAddress: string, pending: {deposit: string, redeem: string}}`
+4. **Active staker with pending transactions**: `{userAddress: string, position: string, pending: {deposit: string, redeem: string}}`
+
+> **Note:** The method automatically uses the connected wallet's address. A signer must be provided when initializing the SDK.
 
 ## Requirements
 

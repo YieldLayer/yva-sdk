@@ -1,16 +1,23 @@
-import { Contract } from "ethers";
+import { Signer } from "ethers";
 import { BackendService } from "../services/BackendService";
 
 export class UsersModule {
   private backendService: BackendService;
-  private contract: Contract;
+  private signer?: Signer;
 
-  constructor(backendService: BackendService, contract: Contract) {
+  constructor(backendService: BackendService, signer?: Signer) {
     this.backendService = backendService;
-    this.contract = contract;
+    this.signer = signer;
   }
 
-  async getUser(userAddress: string) {
+  async getUser() {
+    if (!this.signer) {
+      throw new Error(
+        "Signer is required to get user information. Please connect a wallet."
+      );
+    }
+
+    const userAddress = await this.signer.getAddress();
     return await this.backendService.getUser(userAddress);
   }
 
